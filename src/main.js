@@ -20,22 +20,27 @@ let query = "";
 
 async function onLoadMore() {
     page++;
+  
+    console.log("тут кількість кліків на кнопку:", page);
     showLoader();
     hideLoadMoreButton();
     try {
         const data = await getImagesByQuery(query, page);
         const { hits: images, totalHits } = data; // отримуємо images і totalHits
-        console.log(data);
+        //console.log(data);
         createGallery(images);
-        if (page * 15 >= totalHits) {
-            hideLoadMoreButton(); // більше нема зображень
-            iziToast.info({
-                message: "We're sorry, but you've reached the end of search results.",
-                position: 'topRight',
-            });
-        } else {
-            showLoadMoreButton(); // ще є зображення
-        } 
+        checkLoadMoreVisibility(totalHits);
+        
+        // отримуємо висоту першої картки
+        const card = document.querySelector(".list");
+        const cardHeight = card.getBoundingClientRect().height;
+
+        // прокручуємо на дві висоти картки
+        window.scrollBy({
+            top: cardHeight * 2,
+            behavior: "smooth"
+        });
+       
 
     } catch (error){
         iziToast.error({
@@ -44,6 +49,7 @@ async function onLoadMore() {
         })
     } finally {
         hideLoader();
+       
     }
 }
 
@@ -69,7 +75,7 @@ async function handleSubmit(event) {
     try {
     
         const data = await getImagesByQuery(query, page);
-        const images= data.hits;
+        const { hits: images, totalHits } = data; // ✅ витягуємо обидва
      if (images.length === 0){
         iziToast.error({
             message: `Sorry, there are no images matching your search query. Please try again!`,
@@ -78,9 +84,10 @@ async function handleSubmit(event) {
         return;
 
      } 
-     console.log("Знайдено зображень:", images.length);
+     //console.log("Знайдено зображень:", images.length);
      createGallery(images);
-     showLoadMoreButton(); // ✅ показуємо кнопку після успішного завантаження
+     checkLoadMoreVisibility(totalHits);
+     
     
     
           
@@ -94,6 +101,18 @@ async function handleSubmit(event) {
   } finally {
         hideLoader();
         form.reset();
+    }
+}
+
+function checkLoadMoreVisibility(totalHits) {
+    if (page * 15 >= totalHits) {
+        hideLoadMoreButton();
+        iziToast.info({
+            message: "We're sorry, but you've reached the end of search results.",
+            position: 'topRight',
+        });
+    } else {
+        showLoadMoreButton();//ще є зображення
     }
 }
 
