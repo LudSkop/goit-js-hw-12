@@ -9,6 +9,7 @@ import { createGallery, clearGallery, showLoader, hideLoader, showLoadMoreButton
 
 const form = document.querySelector(".form");
 const input = form.querySelector("input");
+const currentPage = document.querySelector(".current-page");
 const loadMore = document.querySelector(".load-more");
 loadMore.addEventListener("click", onLoadMore)
 
@@ -30,7 +31,7 @@ async function onLoadMore() {
         //console.log(data);
         createGallery(images);
         checkLoadMoreVisibility(totalHits);
-        
+
         // отримуємо висоту першої картки
         const card = document.querySelector(".list");
         const cardHeight = card.getBoundingClientRect().height;
@@ -40,6 +41,7 @@ async function onLoadMore() {
             top: cardHeight * 2,
             behavior: "smooth"
         });
+        currentPage.textContent = page; // ✅
        
 
     } catch (error){
@@ -87,6 +89,7 @@ async function handleSubmit(event) {
      //console.log("Знайдено зображень:", images.length);
      createGallery(images);
      checkLoadMoreVisibility(totalHits);
+     currentPage.textContent = page; // ✅
      
     
     

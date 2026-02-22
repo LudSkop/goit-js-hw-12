@@ -163,3 +163,17 @@
 .load-more:hover {
     background: #45a049;
 }
+
+.page-info {
+    text-align: center;
+    font-size: 16px;
+    color: #666;
+    margin-top: 10px;
+}
+
+.current-page {
+    font-weight: bold;
+    color: #000;
+}
+
+
