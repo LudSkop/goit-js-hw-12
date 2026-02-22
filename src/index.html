@@ -8,16 +8,40 @@
     <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body>
-    <load src="./partials/header.html" icon-path="img/sprite.svg#logo" />
+   
 
     <main>
+
+      <form class="form">
+  <label>
+    <span class="label-text">🔍 Шукайте будь-які зображення</span>
+    <div class="input-group">
+    <input type="text" name="search-text" placeholder="Search images..." >
+    <button type="submit">Search</button>
+   
+      </div>
+ 
+  </label>
+
+    </form>
+
+  
+
+    <span class="loader">Loading</span>
+
+    <ul class="gallery"></ul>
+
+    <button type="button" class="load-more">Load more</button>
+
       <!-- Loads the specified .html file -->
-      <load src="./partials/vite-promo.html" />
-      <load src="./partials/badges.html" />
+     
+     
     </main>
 
-    <load src="./partials/footer.html" />
+   
 
     <script type="module" src="./main.js"></script>
+    <script type="module" src="./js/pixabay-api.js"></script>
+    <script type="module" src="./js/render-functions.js"></script>
   </body>
 </html>
